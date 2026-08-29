@@ -1,0 +1,370 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+api/
+  __init__.py
+data/
+  text1.md
+  text1.txt
+  text2.md
+  text2.txt
+evaluation/
+  __init__.py
+generation/
+  __init__.py
+ingestion/
+  __init__.py
+  pipeline.py
+knowledge_graph/
+  __init__.py
+monitoring/
+  __init__.py
+retrieval/
+  __init__.py
+scripts/
+  init_db.py
+storage/
+  __init__.py
+  database.py
+  models.py
+tests/
+  __init__.py
+docker-compose.yml
+pyproject.toml
+requirements.txt
+run_ingestion.py
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="api/__init__.py">
+
+</file>
+
+<file path="data/text1.md">
+None of this was entirely innocent. There were scams, viruses, Nazis, pornography, and chain emails from deposed Nigerian princes. But then predation moved from the periphery to the centre. It used to be an abuse of the network. Now it is the network’s organising principle. The scammer once had to find a victim. The platform now finds one, profiles the weakness, optimises the pitch, processes the payment, and recommends the next scam. What was once an aberration has become the norm.
+
+The modern internet is now a highly optimised machine for detecting human vulnerability, amplifying it, and placing a payment link beside it. Any insecurity can become a commercial niche, including the desire to escape commercial life itself. There is always a course, a newsletter, a private community, or a referral code waiting at the end of the funnel.
+
+The bleak part is not that grifters exist. Every society has hucksters. It is that much of the population has been conscripted into the downline. Ordinary people now spend their lives promoting investments they barely understand, products that do not work, and political claims they have never examined. Many earn nothing. They are unpaid distributors for someone farther up the pyramid. The consumer, salesman, and product have collapsed into the same exhausted person.
+
+People increasingly behave like addicts because addiction is the business model. The feed supplies alternating doses of outrage, fear, envy, lust, and hope. Each feeling arrives with something to buy. People doomscroll until they acquire the anxiety that the next influencer will monetise. Then they purchase a bet, a coin, a supplement, a course, or an enemy. Finally, they repost the pitch. Consumption becomes distribution. The mark becomes the salesman.
+
+This is an industrial system for manufacturing weakness at scale. A legitimate business can survive a satisfied customer. A grift cannot. It needs the customer frightened, aggrieved, lonely, sick, or greedy forever.
+</file>
+
+<file path="data/text1.txt">
+When I started writing about cryptocurrency in 2020, 
+I still carried a naive assumption about the size of this economy.
+ I thought people were generally decent and the grifter class was a small pool of degenerates with rotten moral character, preying on those made vulnerable by the material conditions of our time.
+
+I was very wrong. The grift economy is massive.
+ More disturbing still, it is participatory. A large and growing share of the population now appears willing to devote every waking hour to fleecing their fellow man as a career choice. They stream, post, recruit, promote, refer, astroturf, and close. They turn every friendship into a lead and every conversation into a qualifying call. They do not clock out because the market follows them into bed.
+ The smartphone is a shop counter that sleeps beside their head.
+</file>
+
+<file path="data/text2.md">
+Obviously most of these people are not succeeding. The maths simply can never work out. That is part of the trick. The aspiring influencer with forty-seven followers is not an entrepreneur in any meaningful sense. He is free labour for the platform and cheap distribution for the person selling him the dream. The affiliate marketer buys a course about affiliate marketing, then recovers the cost by selling the same course to the next affiliate marketer. The life coach coaches new life coaches. The dropshipper sells tutorials to failed dropshippers. The pyramid is social before it is financial. Everyone stands on someone else while insisting they are about to escape.
+
+This arrangement blurs the useful moral distinction between predator and prey. Many online grifters are themselves marks. They believe the rubbish they sell because belief makes the selling bearable. They have sunk money, time, identity, and public dignity into the scheme. Admitting the product is worthless would mean admitting that years of their life were worthless too. It is psychologically cheaper to recruit another victim. The fraud sustains the faith, and the faith sustains the fraud.
+</file>
+
+<file path="data/text2.txt">
+A normal trade ends when a need is satiated. 
+You need a chair. Someone sells you a chair. 
+You sit down and stop thinking about chairs. 
+However, an online grift can never satiate.
+ It must preserve the need that feeds it. 
+ The grievance merchant cannot resolve your grievance. 
+ The wellness influencer cannot let you feel well. 
+ The trading guru cannot let you become financially secure.
+  The manosphere podcaster cannot let young men become calm, 
+  loved, and socially competent. Satisfaction is churn. 
+  Misery is recurring revenue.
+
+The platforms did not invent fear, greed, 
+loneliness, or status anxiety. They industrialised their extraction. 
+Their recommendation systems are vast reinforcement-learning loops that continuously experiment on human weakness. Each objective is a moving composite of high-dimensional signals for attention, retention, and conversion, dispersed across models, metrics, tests, and feedback systems. The subject cannot see the experiment. The operator cannot fully explain it. The regulator can barely comprehend it. The loop knows only that one stimulus keeps a person scrolling while another lets them leave. Calm accuracy loses. Threat, transgression, humiliation, and impossible promises win. The resulting social damage appears nowhere in the objective function.
+ It arrives as an externality.
+</file>
+
+<file path="evaluation/__init__.py">
+
+</file>
+
+<file path="generation/__init__.py">
+
+</file>
+
+<file path="ingestion/__init__.py">
+
+</file>
+
+<file path="ingestion/pipeline.py">
+import os
+from pathlib import Path
+from typing import List
+import uuid
+from datetime import datetime, timezone
+
+from sentence_transformers import SentenceTransformer
+
+from storage.database import SessionLocal
+from storage.models import Document, Chunk
+
+# Load embedding model once
+embedder = SentenceTransformer("all-MiniLM-L6-v2")
+
+
+def read_file_content(file_path: Path) -> str:
+    """Read .txt or .md; for .md we might strip Markdown later."""
+    with open(file_path, "r", encoding="utf-8") as f:
+        return f.read()
+    
+
+def chunk_text(text: str, chunk_size: int = 512, overlap: int = 50) -> List[str]:
+    """Simple token-based chunking (approximate by whitespace token count)."""
+    words = text.split()
+    chunks = []
+    start = 0
+    while start < len(words):
+        end = min(start + chunk_size, len(words))
+        chunk = " ".join(words[start:end])
+        chunks.append(chunk)
+        if end == len(words):
+            break
+        start = end - overlap
+    return chunks
+
+
+def ingest_file(file_path: Path):
+    """Ingest a single file into the DB."""
+    content = read_file_content(file_path)
+    chunks = chunk_text(content)
+    
+    # 1. Create Document record
+    doc = Document(
+        title=file_path.stem,
+        source=str(file_path.absolute()),
+        source_type="file",
+        created_at=datetime.now(timezone.utc),
+    )
+    
+    db = SessionLocal()
+    db.add(doc)
+    db.flush()  # get doc.id
+    
+    # 2. For each chunk, compute embedding and store
+    for pos, chunk in enumerate(chunks):
+        embedding_vector = embedder.encode(chunk).tolist()  # list of floats
+        chunk = Chunk(
+            document_id=doc.id,
+            content=chunk,
+            position=pos,
+            embedding=embedding_vector,
+        )
+        db.add(chunk)
+
+    db.commit()
+    db.close()
+    print(f"Ingested {file_path.name} -> {len(chunks)} chunks")
+    
+
+def ingest_directory(data_dir: str):
+    for ext in ["*.txt", "*.md"]:
+        for file_path in Path(data_dir).glob(ext):
+            ingest_file(file_path)
+</file>
+
+<file path="knowledge_graph/__init__.py">
+
+</file>
+
+<file path="monitoring/__init__.py">
+
+</file>
+
+<file path="retrieval/__init__.py">
+
+</file>
+
+<file path="scripts/init_db.py">
+# scripts/init_db.py
+from storage.database import engine
+from storage.models import Base
+from sqlalchemy import text
+
+
+def init_db():
+    # Create tables
+    Base.metadata.create_all(bind=engine)
+
+    # Enable pgvector extension (if not already)
+    with engine.connect() as conn:
+        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
+        conn.commit()
+    print("Database initialized.")
+
+
+if __name__ == "__main__":
+    init_db()
+</file>
+
+<file path="storage/__init__.py">
+
+</file>
+
+<file path="storage/database.py">
+from typing import Generator
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, Session
+from storage.models import Base
+
+# Read from environment variables (use python-dotenv later)
+DATABASE_URL = "postgresql://knowledge:knowledge@localhost:5433/knowledge"
+
+engine = create_engine(DATABASE_URL, echo=True)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def get_db() -> Generator[Session, None, None]:
+    """Dependency for FastAPI later, but useful for scripts."""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+</file>
+
+<file path="storage/models.py">
+from sqlalchemy import Column, String, Integer, DateTime, JSON, Text, ForeignKey
+from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.orm import declarative_base
+from pgvector.sqlalchemy import Vector
+import uuid
+from datetime import datetime, timezone
+
+Base = declarative_base()
+
+
+class Document(Base):
+    __tablename__ = "documents"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    title = Column(String, nullable=False)
+    source = Column(String, nullable=False)  # file path or URL
+    source_type = Column(String)  # "file", "url", "github", etc.
+    version = Column(String, nullable=True)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(
+        DateTime,
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+    )
+    custom_metadata = Column(JSONB, default={})
+
+
+class Chunk(Base):
+    __tablename__ = "document_chunks"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    document_id = Column(UUID(as_uuid=True), ForeignKey("documents.id"))
+    content = Column(Text, nullable=False)
+    position = Column(Integer, nullable=False)  # position of the chunk in the document
+    embedding = Column(Vector(384))  # length depends on model
+    custom_metadata = Column(JSONB, default={})
+</file>
+
+<file path="tests/__init__.py">
+
+</file>
+
+<file path="docker-compose.yml">
+version: "3.8"
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: knowledge
+      POSTGRES_PASSWORD: knowledge
+      POSTGRES_DB: knowledge
+    ports:
+      - "5433:5432"          # host:container (both same)
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6380:6379"          # host:container
+volumes:
+  pgdata:
+</file>
+
+<file path="pyproject.toml">
+
+</file>
+
+<file path="requirements.txt">
+sqlalchemy
+fastapi
+uvicorn
+pydantic
+pgvector
+sentence_transformers
+python-dotenv
+psycopg2-binary
+psycopg2
+</file>
+
+<file path="run_ingestion.py">
+from ingestion.pipeline import ingest_directory
+import sys
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        data_dir = sys.argv[1]
+    else:
+        data_dir = "data"  # default
+    ingest_directory(data_dir)
+</file>
+
+</files>
