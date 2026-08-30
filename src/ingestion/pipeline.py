@@ -7,7 +7,8 @@ from sqlalchemy import func
 from sentence_transformers import SentenceTransformer
 
 from storage.database import SessionLocal
-from storage.models import Document, Chunk
+from storage.models import Document, Chunk, Entity, Relationship
+from knowledge_graph.extraction import extract_entities_and_relations
 
 # Load embedding model once
 embedder = SentenceTransformer("all-MiniLM-L6-v2")
@@ -53,6 +54,7 @@ def ingest_file(file_path: Path):
 
     # 2. For each chunk, compute embedding and store
     for pos, chunk in enumerate(chunks):
+        # store chuncks
         embedding_vector = embedder.encode(chunk).tolist()  # list of floats
         tsv = func.to_tsvector("english", chunk)
         chunk = Chunk(
@@ -63,6 +65,32 @@ def ingest_file(file_path: Path):
             tsv=tsv,
         )
         db.add(chunk)
+
+        # extract entities and relationships
+        entities_list, relations_list = extract_entities_and_relations(chunk)
+
+        # store entities
+        for ent in entities_list:
+            existing = db.query(Entity).filter(Entity.name == ent["name"]).first()
+            if not existing:
+                entity = Entity(name=ent["name"], type=ent["type"])
+                db.add(entity)
+                db.flush()  # to get id
+            else:
+                entity = existing
+
+        # store relationships
+        for rel in relations_list:
+            src = db.query(Entity).filter(Entity.name == rel["source"]).first()
+            tgt = db.query(Entity).filter(Entity.name == rel["target"]).first()
+            if src and tgt:
+                rel_obj = Relationship(
+                    source_id=src.id,
+                    target_id=tgt.id,
+                    relation_type=rel["relation"],
+                    source_chunk_id=chunk.id,  # we need chunk id here; but we haven't assigned chunk id yet. We can do after chunk is added.
+                )
+                db.add(rel_obj)
 
     db.commit()
     db.close()

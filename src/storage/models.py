@@ -35,3 +35,21 @@ class Chunk(Base):
     embedding = Column(Vector(384))  # length depends on model
     custom_metadata = Column(JSONB, default={})
     tsv = Column(TSVECTOR, nullable=True)
+
+
+class Entity(Base):
+    __tablename__ = "entities"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    name = Column(String, nullable=False, unique=True)  # normalized
+    type = Column(String)  # e.g., "PERSON", "ORG", "CONCEPT", "TECHNOLOGY"
+    custom_metadata = Column(JSONB, default={})
+
+
+class Relationship(Base):
+    __tablename__ = "relationships"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    source_id = Column(UUID(as_uuid=True), ForeignKey("entities.id"))
+    target_id = Column(UUID(as_uuid=True), ForeignKey("entities.id"))
+    relation_type = Column(String)  # e.g., "implements", "uses", "part_of"
+    source_chunk_id = Column(UUID(as_uuid=True), ForeignKey("document_chunks.id"))
+    custom_metadata = Column(JSONB, default=True)
