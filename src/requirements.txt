@@ -7,3 +7,4 @@ sentence_transformers
 python-dotenv
 psycopg2-binary
 psycopg2
+spacy
