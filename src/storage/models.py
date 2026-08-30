@@ -1,5 +1,5 @@
-from sqlalchemy import Column, String, Integer, DateTime, JSON, Text, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy import Column, String, Integer, DateTime, JSON, Text, ForeignKey, Index
+from sqlalchemy.dialects.postgresql import UUID, JSONB, TSVECTOR
 from sqlalchemy.orm import declarative_base
 from pgvector.sqlalchemy import Vector
 import uuid
@@ -26,11 +26,12 @@ class Document(Base):
 
 class Chunk(Base):
     __tablename__ = "document_chunks"
+    __table_args__ = (Index("idx_chunk_tsv", "tsv", postgresql_using="gin"),)
+
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     document_id = Column(UUID(as_uuid=True), ForeignKey("documents.id"))
     content = Column(Text, nullable=False)
     position = Column(Integer, nullable=False)  # position of the chunk in the document
     embedding = Column(Vector(384))  # length depends on model
     custom_metadata = Column(JSONB, default={})
-
-
+    tsv = Column(TSVECTOR, nullable=True)

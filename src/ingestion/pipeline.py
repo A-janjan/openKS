@@ -1,8 +1,8 @@
 import os
 from pathlib import Path
 from typing import List
-import uuid
 from datetime import datetime, timezone
+from sqlalchemy import func
 
 from sentence_transformers import SentenceTransformer
 
@@ -17,7 +17,7 @@ def read_file_content(file_path: Path) -> str:
     """Read .txt or .md; for .md we might strip Markdown later."""
     with open(file_path, "r", encoding="utf-8") as f:
         return f.read()
-    
+
 
 def chunk_text(text: str, chunk_size: int = 512, overlap: int = 50) -> List[str]:
     """Simple token-based chunking (approximate by whitespace token count)."""
@@ -38,7 +38,7 @@ def ingest_file(file_path: Path):
     """Ingest a single file into the DB."""
     content = read_file_content(file_path)
     chunks = chunk_text(content)
-    
+
     # 1. Create Document record
     doc = Document(
         title=file_path.stem,
@@ -46,26 +46,28 @@ def ingest_file(file_path: Path):
         source_type="file",
         created_at=datetime.now(timezone.utc),
     )
-    
+
     db = SessionLocal()
     db.add(doc)
     db.flush()  # get doc.id
-    
+
     # 2. For each chunk, compute embedding and store
     for pos, chunk in enumerate(chunks):
         embedding_vector = embedder.encode(chunk).tolist()  # list of floats
+        tsv = func.to_tsvector("english", chunk)
         chunk = Chunk(
             document_id=doc.id,
             content=chunk,
             position=pos,
             embedding=embedding_vector,
+            tsv=tsv,
         )
         db.add(chunk)
 
     db.commit()
     db.close()
     print(f"Ingested {file_path.name} -> {len(chunks)} chunks")
-    
+
 
 def ingest_directory(data_dir: str):
     for ext in ["*.txt", "*.md"]:
