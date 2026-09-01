@@ -12,3 +12,4 @@ transformers
 pytest
 pytest-mock
 redis
+streamlit

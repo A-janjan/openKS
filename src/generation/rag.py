@@ -1,6 +1,7 @@
 from retrieval.search import hybrid_search
-from generation.llm import generate_answer
+from generation.llm import generate_answer, verify_grounding
 from typing import List, Dict
+import re
 
 
 def build_context(results: List[Dict], max_tokens: int = 3000) -> str:
@@ -12,19 +13,36 @@ def build_context(results: List[Dict], max_tokens: int = 3000) -> str:
     return context
 
 
-def answer_query(query: str, limit: int = 5) -> Dict:
-    """Full RAG pipeline: retrieve, build context, generate answer."""
-    # 1. Retrieve top chunks
+def extract_citations(answer: str) -> List[int]:
+    """Find all citation numbers like [1], [2] in the answer."""
+    pattern = r"\[(\d+)\]"
+    return [int(match) for match in re.findall(pattern, answer)]
+
+
+def answer_query(query: str, limit: int = 10) -> Dict:
     results = hybrid_search(query, limit=limit)
-    # 2. Build context
-    context = build_context(results)
-    # 3. Generate answer with LLM
-    answer = generate_answer(
-        query, context, results
-    )  # we'll handle citations in LLM prompt
-    # 4. Return answer and sources
+    answer_text = generate_answer(query, results)
+    
+    citation_numbers = extract_citations(answer_text)
+    cited_chunks = []
+    seen_ids = set()
+    for num in citation_numbers:
+        idx = num - 1
+        if 0 <= idx < len(results):
+            chunk = results[idx]
+            if chunk["id"] not in seen_ids:
+                seen_ids.add(chunk["id"])
+                cited_chunks.append(chunk)
+                
+
+    # Now call grounding check (see below)
+    context = build_context(results)  # or use the numbered context from LLM
+    grounding = verify_grounding(query, answer_text, context)
+    
     return {
         "query": query,
-        "answer": answer,
-        "citations": results,  # we can extract from answer or provide raw
+        "answer": answer_text,
+        "citations": cited_chunks,
+        "grounded": grounding["grounded"],
+        "explanation": grounding["explanation"]
     }

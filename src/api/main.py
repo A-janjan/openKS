@@ -10,14 +10,14 @@ from monitoring.metrics import log_request
 
 class AnswerRequest(BaseModel):
     query: str
-    limit: int = 5
+    limit: int = 10
 
 
 app = FastAPI(title="Open Knowledge Search")
 
 
 @app.get("/search")
-def search(query: str = Query(..., min_length=1), limit: int = 10):
+def search(query: str = Query(..., min_length=1), limit: int = 7):
     analysis = analyze_query(query)
     results = hybrid_search(query, limit)
     return {"query": query, "results": results, "analysis": analysis}
@@ -35,3 +35,8 @@ async def monitor_requests(request: Request, call_next):
     duration = time.time() - start
     log_request(request.method, request.url.path, response.status_code, duration)
     return response
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
