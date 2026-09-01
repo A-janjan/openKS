@@ -32,7 +32,7 @@ class Chunk(Base):
     document_id = Column(UUID(as_uuid=True), ForeignKey("documents.id"))
     content = Column(Text, nullable=False)
     position = Column(Integer, nullable=False)  # position of the chunk in the document
-    embedding = Column(Vector(768))  
+    embedding = Column(Vector(3072))  
     custom_metadata = Column(JSONB, default={})
     tsv = Column(TSVECTOR, nullable=True)
 

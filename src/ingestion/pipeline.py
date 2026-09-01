@@ -39,7 +39,7 @@ def ingest_file(file_path: Path):
 
     # 1. Create Document record
     doc = Document(
-        title=file_path.stem,
+        title=file_path.name,
         source=str(file_path.absolute()),
         source_type="file",
         created_at=datetime.now(timezone.utc),
