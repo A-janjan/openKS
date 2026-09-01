@@ -1,12 +1,15 @@
 import streamlit as st
 import requests
+import os
+API_URL = os.getenv("API_URL", "http://localhost:8000")
+
 
 st.title("Open Knowledge Search & RAG")
 
 query = st.text_input("Ask a question")
 if query:
     # Call your FastAPI /answer endpoint
-    response = requests.post("http://localhost:8000/answer", json={"query": query})
+    response = requests.post(f"{API_URL}/answer", json={"query": query})
     if response.status_code == 200:
         data = response.json()
         st.write("**Answer:**", data["answer"])
