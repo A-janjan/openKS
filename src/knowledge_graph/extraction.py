@@ -1,9 +1,8 @@
-# knowledge_graph/extraction.py
 import spacy
 from typing import List, Tuple, Dict
 from storage.models import Entity, Relationship
 
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_md")
 
 
 def extract_entities_and_relations(text: str) -> Tuple[List[Dict], List[Dict]]:

@@ -1,10 +1,8 @@
 from sqlalchemy import text
 from storage.database import SessionLocal
 from storage.models import Chunk
-from sentence_transformers import SentenceTransformer
+from ingestion.embeddings import get_embedding
 from retrieval.reranking import rerank
-
-embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
 
 def bm25_search(query: str, limit: int = 10):
@@ -32,7 +30,7 @@ def bm25_search(query: str, limit: int = 10):
 
 def vector_search(query: str, limit: int = 10):
     db = SessionLocal()
-    query_vec = embedder.encode(query).tolist()
+    query_vec = get_embedding(query)
     # Convert the list to a Postgres‑compatible vector string
     query_vec_str = "[" + ",".join(str(x) for x in query_vec) + "]"
     stmt = text("""
@@ -42,7 +40,7 @@ def vector_search(query: str, limit: int = 10):
                     ORDER BY similarity DESC
                     LIMIT :limit
                 """)
-    result = db.execute(stmt, {"query_vec": query_vec, "limit": limit})
+    result = db.execute(stmt, {"query_vec": query_vec_str, "limit": limit})
     rows = result.fetchall()
     db.close()
     return [

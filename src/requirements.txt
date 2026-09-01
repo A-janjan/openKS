@@ -3,8 +3,11 @@ fastapi
 uvicorn
 pydantic
 pgvector
-sentence_transformers
 python-dotenv
 psycopg2-binary
 psycopg2
 spacy
+google-genai
+transformers
+pytest
+pytest-mock

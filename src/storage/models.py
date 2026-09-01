@@ -32,7 +32,7 @@ class Chunk(Base):
     document_id = Column(UUID(as_uuid=True), ForeignKey("documents.id"))
     content = Column(Text, nullable=False)
     position = Column(Integer, nullable=False)  # position of the chunk in the document
-    embedding = Column(Vector(384))  # length depends on model
+    embedding = Column(Vector(768))  
     custom_metadata = Column(JSONB, default={})
     tsv = Column(TSVECTOR, nullable=True)
 
@@ -52,4 +52,4 @@ class Relationship(Base):
     target_id = Column(UUID(as_uuid=True), ForeignKey("entities.id"))
     relation_type = Column(String)  # e.g., "implements", "uses", "part_of"
     source_chunk_id = Column(UUID(as_uuid=True), ForeignKey("document_chunks.id"))
-    custom_metadata = Column(JSONB, default=True)
+    custom_metadata = Column(JSONB, default={})

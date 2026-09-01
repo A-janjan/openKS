@@ -4,14 +4,11 @@ from typing import List
 from datetime import datetime, timezone
 from sqlalchemy import func
 
-from sentence_transformers import SentenceTransformer
 
 from storage.database import SessionLocal
 from storage.models import Document, Chunk, Entity, Relationship
 from knowledge_graph.extraction import extract_entities_and_relations
-
-# Load embedding model once
-embedder = SentenceTransformer("all-MiniLM-L6-v2")
+from ingestion.embeddings import get_embedding
 
 
 def read_file_content(file_path: Path) -> str:
@@ -20,7 +17,7 @@ def read_file_content(file_path: Path) -> str:
         return f.read()
 
 
-def chunk_text(text: str, chunk_size: int = 512, overlap: int = 50) -> List[str]:
+def chunking_text(text: str, chunk_size: int = 512, overlap: int = 50) -> List[str]:
     """Simple token-based chunking (approximate by whitespace token count)."""
     words = text.split()
     chunks = []
@@ -38,7 +35,7 @@ def chunk_text(text: str, chunk_size: int = 512, overlap: int = 50) -> List[str]
 def ingest_file(file_path: Path):
     """Ingest a single file into the DB."""
     content = read_file_content(file_path)
-    chunks = chunk_text(content)
+    chunks = chunking_text(content)
 
     # 1. Create Document record
     doc = Document(
@@ -53,21 +50,22 @@ def ingest_file(file_path: Path):
     db.flush()  # get doc.id
 
     # 2. For each chunk, compute embedding and store
-    for pos, chunk in enumerate(chunks):
+    for pos, chunk_text in enumerate(chunks):
         # store chuncks
-        embedding_vector = embedder.encode(chunk).tolist()  # list of floats
-        tsv = func.to_tsvector("english", chunk)
-        chunk = Chunk(
+        embedding_vector = get_embedding(chunk_text)
+        tsv = func.to_tsvector("english", chunk_text)
+        chunk_obj = Chunk(
             document_id=doc.id,
-            content=chunk,
+            content=chunk_text,
             position=pos,
             embedding=embedding_vector,
             tsv=tsv,
         )
-        db.add(chunk)
+        db.add(chunk_obj)
+        db.flush()
 
         # extract entities and relationships
-        entities_list, relations_list = extract_entities_and_relations(chunk)
+        entities_list, relations_list = extract_entities_and_relations(chunk_text)
 
         # store entities
         for ent in entities_list:
@@ -88,7 +86,7 @@ def ingest_file(file_path: Path):
                     source_id=src.id,
                     target_id=tgt.id,
                     relation_type=rel["relation"],
-                    source_chunk_id=chunk.id,  # we need chunk id here; but we haven't assigned chunk id yet. We can do after chunk is added.
+                    source_chunk_id=chunk_obj.id,
                 )
                 db.add(rel_obj)
 
